@@ -5,9 +5,9 @@
     State between iterations lives only on disk (IMPLEMENTATION_PLAN.md,
     PROGRESS.md) and in this directory's git history.
 
-    IMPORTANT (lesson learned the hard way): keep this script itself pure ASCII.
-    Windows PowerShell 5.1 without a BOM can misread non-ASCII bytes in .ps1 files and
-    produce bizarre parse errors far from the actual problem.
+    Keep this script itself pure ASCII. Windows PowerShell 5.1 without a BOM can
+    misread non-ASCII bytes in .ps1 files and produce parse errors far from the
+    actual problem.
 
     Usage:
       cd my-ralph-project

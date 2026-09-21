@@ -11,6 +11,7 @@
     "beforeMCPExecution": [
       {
         "command": "python hooks/remind_before_git_write.py",
+        "matcher": "git_commit|git_push",
         "timeout": 5
       }
     ]

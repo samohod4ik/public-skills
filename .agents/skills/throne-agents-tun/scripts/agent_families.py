@@ -45,20 +45,13 @@ PATH_ONLY_LEAVES = frozenset(
 
 SECRET_PATTERN_PARTS: tuple[tuple[str, ...], ...] = (
     (r"https?://[^\s]+/s/[A-Za-z0-9_\-]{12,}",),
-    ("with", "blanc", "vpn"),
     (r"PrivateKey\s*=",),
     (r"BEGIN (OPENSSH|PRIVATE) KEY",),
 )
 
 
 def compile_secret_patterns():
-    import re
-
-    patterns = []
-    for parts in SECRET_PATTERN_PARTS:
-        flags = re.I if parts == ("with", "blanc", "vpn") else 0
-        patterns.append(re.compile("".join(parts), flags))
-    return tuple(patterns)
+    return tuple(re.compile("".join(parts)) for parts in SECRET_PATTERN_PARTS)
 
 
 def classify_agent_path(name: str, path: str) -> str | None:

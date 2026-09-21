@@ -33,6 +33,7 @@ From the repository root:
 
 ```text
 python tests/test_public_surface.py
+python tests/test_remind_before_git_write.py
 ```
 
 ## License

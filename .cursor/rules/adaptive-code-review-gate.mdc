@@ -5,11 +5,11 @@ alwaysApply: true
 
 # Adaptive review gate
 
-После code-changing работы и обычной верификации реши, нужен ли review-fix loop. Не запускай цикл на read-only ответы, правку docs-only, или если пользователь явно запретил ревью.
+After code-changing work and ordinary verification, decide whether a review-fix loop is needed. Do not start the loop for read-only answers, docs-only edits, or when the user explicitly skipped review.
 
 ## Immediate review
 
-Сразу вызови skill `adaptive-code-review-loop`, если затронуто любое из:
+Start `adaptive-code-review-loop` immediately if any of the following is involved:
 
 - security / auth
 - migrations / data mutation
@@ -19,15 +19,15 @@ alwaysApply: true
 
 ## Score
 
-+1 за каждый пункт. Порог **>= 3** — вызвать `adaptive-code-review-loop`. Ниже — завершить без цикла и одной строкой сказать, что гейт пропустил ревью.
++1 for each item. Threshold **>= 3** — start `adaptive-code-review-loop`. Below that, finish without the loop and say in one line that the gate skipped review.
 
-- больше 3 production-файлов
-- больше 150 non-generated строк diff
-- несколько модулей / сервисов
-- новый dependency / config
-- существенные behavioral edge cases
+- more than 3 production files
+- more than 150 non-generated diff lines
+- several modules / services
+- a new dependency / config
+- substantial behavioral edge cases
 - multi-layer testing
 
-Явный `/adaptive-code-review-loop` обходит гейт.
+Explicit `/adaptive-code-review-loop` bypasses the gate.
 
-Процедура и stop-правила — только в skill. Не чини only-Minor раунд. Не ставь always-on hook.
+Procedure and stop rules live only in the skill. Do not fix an only-Minor round. Do not attach an always-on hook.

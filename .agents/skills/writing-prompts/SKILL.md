@@ -3,14 +3,14 @@ name: writing-prompts
 description: >-
   Use when the user asks to improve, rewrite, or draft an agent prompt;
   when a request is vague ("improve docs", "any queries", "any dashboards");
-  or when they mention prompt, Plan Mode, or handoff files.
+  or when they mention prompt or handoff files.
 ---
 
 # Writing prompts
 
 Turn a weak or raw request into a prompt an agent can execute without guessing. This skill does not call tools or write project code — it returns prompt text.
 
-Cursor-specific mechanics (modes, Task tool, Grok dispatch) are in [references/cursor.md](references/cursor.md). Superpowers phase names in the contract are optional; drop them when the target agent does not use that playbook.
+If the target is Cursor, read [references/cursor.md](references/cursor.md).
 
 ## When to use
 
@@ -24,7 +24,7 @@ Cursor-specific mechanics (modes, Task tool, Grok dispatch) are in [references/c
 
 Before editing the prompt, check:
 
-1. Mode / write access: if Handoff/done require files in the workspace, the prompt must name a mode that can write those paths.
+1. If Handoff/done require files in the workspace, the prompt must name a reader that can write those paths.
 2. If the source asks for subagent-driven execution, a plan file with tasks must already exist.
 3. Every `@file` / `@folder` in the future prompt exists. No file — do not invent a path; ask or drop the `@`.
 4. Named past chats: exact name or id. "This chat" without an id is not a canon for a subagent.
@@ -50,7 +50,6 @@ The finished prompt contains these blocks, in this order:
 5. **Done** — 3-5 checks the agent can confirm. Do not use "any / all / every" in done.
 6. **Phase** — research-to-files, writing a plan, executing an existing plan, or research-then-plan when those are mixed.
 7. **Handoff** — paths for brief/report; facts from chats as `@Chats` or a file, not "as discussed".
-8. **Models** — only if the target dispatcher needs explicit `model` slugs. Cursor recipe: [references/cursor.md](references/cursor.md).
 
 Form is a recipe. Do not replace a block with a list of "do not X".
 

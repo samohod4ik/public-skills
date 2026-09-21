@@ -51,7 +51,7 @@ If Happ is already running **and** System Proxy / TUN is already up (example: Wi
 
 ## Field check
 
-The delayed current-user Scheduled Task `Happ Proxy Autoconnect Nudge` (default ~45s after logon, wait until `Happ.exe` exists, then `happ://connect`) is a **field-verified** soft fallback when provider autoconnect headers are unavailable. Confirm it after a reboot or a fresh logon — not by firing connect on an already-healthy live session. It is not a substitute for official provider `lastused`.
+The delayed current-user Scheduled Task `Happ Proxy Autoconnect Nudge` (default ~45s after logon, wait until `Happ.exe` exists, then `happ://connect`) is a soft fallback when provider autoconnect headers are unavailable. Field-check it after a reboot or a fresh logon — not by firing connect on an already-healthy live session. It is not a substitute for official provider `lastused`.
 
 ## Competing WinDivert / TUN hijacks
 

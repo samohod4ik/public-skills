@@ -1,6 +1,14 @@
 # Cursor mechanics for prompts
 
-Read this file when the target is Cursor Agent / Plan / Superpowers. Do not copy it wholesale into the prompt.
+Read this file when the target is Cursor Agent / Plan Mode / Superpowers. Do not copy it wholesale into the prompt.
+
+Cursor-specific mechanics (Plan Mode, Task tool, Grok dispatch) live only here. Superpowers phase names in the contract are optional; drop them when the target agent does not use that playbook.
+
+## Doctor extras (Cursor)
+
+If Handoff/done require files in the workspace, the prompt must name a Cursor mode that can write those paths (Agent, not Ask or Plan Mode).
+
+Add a **Models** block only when the Cursor Task tool dispatcher needs explicit `model` slugs. Follow **Grok dispatch** below. Do not put that recipe in the generic skill contract.
 
 ## Modes
 

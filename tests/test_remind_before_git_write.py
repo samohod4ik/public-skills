@@ -65,10 +65,26 @@ def test_pretooluse_generic_shell_skips_reminder() -> None:
     assert body == {"continue": True}
 
 
+def test_pretooluse_git_commit_tool_uses_continue() -> None:
+    body = run({"hook_event_name": "PreToolUse", "tool_name": "git_commit"})
+    assert body.get("continue") is True
+    assert "systemMessage" in body
+    assert "permission" not in body
+
+
+def test_pretooluse_git_push_tool_uses_continue() -> None:
+    body = run({"hook_event_name": "PreToolUse", "tool_name": "git_push"})
+    assert body.get("continue") is True
+    assert "systemMessage" in body
+    assert "permission" not in body
+
+
 if __name__ == "__main__":
     test_cursor_shell_commit_allows_with_message()
     test_cursor_mcp_push_allows_with_message()
     test_cursor_unrelated_command_has_no_message()
     test_pretooluse_bash_commit_uses_continue()
     test_pretooluse_generic_shell_skips_reminder()
+    test_pretooluse_git_commit_tool_uses_continue()
+    test_pretooluse_git_push_tool_uses_continue()
     print("PASS remind_before_git_write")

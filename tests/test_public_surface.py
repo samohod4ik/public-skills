@@ -30,6 +30,8 @@ FORBIDDEN = [
     (re.compile(r"\bkadastr\b", re.I), "workplace hostname fragment"),
     (re.compile(r"на машине автора", re.I), "author-machine framing"),
     (re.compile(r"живой SSH с машины автора", re.I), "author-machine framing"),
+    (re.compile(r"on the author's machine", re.I), "author-machine framing"),
+    (re.compile(r"live SSH", re.I), "author-machine framing"),
 ]
 
 LAPTOP_ONLY = re.compile(
@@ -52,6 +54,7 @@ TEXT_SUFFIXES = {
     ".py",
     ".ps1",
     ".cmd",
+    ".sh",
     ".yml",
     ".yaml",
     ".json",
@@ -66,6 +69,8 @@ def iter_public_text() -> list[Path]:
     paths.extend(ROOT.glob("*.md"))
     paths.extend(ROOT.glob("docs/**/*.md"))
     paths.extend(ROOT.glob("hooks/**/*.py"))
+    paths.extend(p for p in ROOT.glob(".cursor/rules/*.mdc") if p.is_file())
+    paths.extend(p for p in ROOT.glob(".claude/rules/*") if p.is_file())
     if SKILLS.is_dir():
         for path in SKILLS.rglob("*"):
             if not path.is_file():
@@ -111,7 +116,10 @@ def main() -> None:
         SKILLS / "adaptive-code-review-loop" / "SKILL.md",
         SKILLS / "writing-prompts" / "SKILL.md",
         SKILLS / "throne-agents-tun" / "SKILL.md",
+        SKILLS / "throne-agents-tun" / "docs" / "http-proxy-fallback.md",
         SKILLS / "ralph-loop" / "SKILL.md",
+        ROOT / ".cursor" / "rules" / "adaptive-code-review-gate.mdc",
+        ROOT / ".claude" / "rules" / "review-gate.md",
     ]
     for p in required:
         if not p.is_file():
@@ -122,6 +130,7 @@ def main() -> None:
         ROOT / "skills" / "throne-cursor-only-public" / "SKILL.md",
         SKILLS / "throne-cursor-only-public" / "SKILL.md",
         ROOT / "scripts" / "Verify-HappExtraWhitelist2.ps1",
+        SKILLS / "throne-agents-tun" / "docs" / "cursor-http-proxy.md",
     ]
     for p in removed:
         if p.exists():
@@ -235,8 +244,8 @@ def main() -> None:
         fail("autoconnect.md: missing live-session apply section")
     if "## Field check" not in autoconnect_doc:
         fail("autoconnect.md: missing Field check section")
-    if "field-verified" not in autoconnect_doc.lower():
-        fail("autoconnect.md: missing field-verified logon nudge")
+    if "field-check" not in autoconnect_doc.lower() and "after a reboot" not in autoconnect_doc.lower():
+        fail("autoconnect.md: missing field-check / after reboot logon nudge")
     if not re.search(r"do\s+(\*\*)?not(\*\*)?\s+fire", autoconnect_doc, re.I):
         fail("autoconnect.md: must say do not fire happ://connect on a healthy live tunnel")
     if "ProxyEnable" not in autoconnect_doc:
@@ -265,9 +274,14 @@ def main() -> None:
 
     if "install-claude.md" not in claude_md:
         fail("CLAUDE.md must point at docs/install-claude.md")
-    if ".agents/skills" in claude_md.lower() and "load" in claude_md.lower() and "does not" not in claude_md.lower():
-        # CLAUDE.md may mention .agents/skills only as the source that Claude does not load.
-        pass
+    if re.search(r"auto[- ]?loads?\s+`.agents/skills`|\.agents/skills`\s+is auto-loaded", claude_md, re.I):
+        fail("CLAUDE.md must not claim Claude auto-loads .agents/skills")
+    if "does not load" not in claude_md.lower() or ".agents/skills" not in claude_md:
+        fail("CLAUDE.md must say Claude Code does not load .agents/skills")
+    if ".claude/skills" not in claude_md:
+        fail("CLAUDE.md must name .claude/skills as the Claude load path")
+    if "copy" not in claude_md.lower() and "link" not in claude_md.lower():
+        fail("CLAUDE.md must say to copy or link skills to .claude/skills")
     if "does not load" not in install_claude.lower() and "only at `.claude/skills" not in install_claude.lower():
         fail("install-claude.md must say Claude Code does not load .agents/skills")
     if "hosted Devin" not in install_devin and "Hosted Devin" not in install_devin:
