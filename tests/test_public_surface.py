@@ -12,6 +12,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 HAPP = ROOT / ".agents" / "skills" / "happ-extra-whitelist2"
 SKILLS = ROOT / ".agents" / "skills"
+ADAPTER_JSON = (
+    ROOT / ".cursor" / "hooks.json",
+    ROOT / ".codex" / "hooks.json",
+    ROOT / ".devin" / "hooks.v1.json",
+    ROOT / ".claude" / "settings.json",
+)
 
 FORBIDDEN = [
     (re.compile(r"\bHermes\b", re.I), "host-specific Hermes"),
@@ -31,7 +37,10 @@ FORBIDDEN = [
     (re.compile(r"на машине автора", re.I), "author-machine framing"),
     (re.compile(r"живой SSH с машины автора", re.I), "author-machine framing"),
     (re.compile(r"on the author's machine", re.I), "author-machine framing"),
+    (re.compile(r"author['’]s workstation", re.I), "author-machine framing"),
     (re.compile(r"live SSH", re.I), "author-machine framing"),
+    (re.compile(r"software-development/throne-agents-tun"), "private monorepo path"),
+    (re.compile(r"samohod4ik/skills"), "private catalog path"),
 ]
 
 LAPTOP_ONLY = re.compile(
@@ -79,7 +88,16 @@ def iter_public_text() -> list[Path]:
                 continue
             if path.suffix.lower() in TEXT_SUFFIXES:
                 paths.append(path)
-    return paths
+    paths.extend(ADAPTER_JSON)
+    seen: set[Path] = set()
+    unique: list[Path] = []
+    for path in paths:
+        key = path.resolve()
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(path)
+    return unique
 
 
 def read(p: Path) -> str:
@@ -120,6 +138,7 @@ def main() -> None:
         SKILLS / "ralph-loop" / "SKILL.md",
         ROOT / ".cursor" / "rules" / "adaptive-code-review-gate.mdc",
         ROOT / ".claude" / "rules" / "review-gate.md",
+        *ADAPTER_JSON,
     ]
     for p in required:
         if not p.is_file():
@@ -288,10 +307,39 @@ def main() -> None:
         fail("install-devin.md must mention hosted Devin")
     if "copy" not in install_devin.lower():
         fail("install-devin.md must describe CLI copy-or-link")
+    if "Copy-Item" not in install_devin:
+        fail("install-devin.md must include a Windows Copy-Item variant")
     if "tool_name" not in hooks_doc:
         fail("docs/hooks.md must state Devin matcher is tool_name")
     if "non-blocking" not in hooks_doc.lower() and "always allow" not in hooks_doc.lower():
         fail("docs/hooks.md must state the reminder is non-blocking")
+    if "--format" not in hooks_doc:
+        fail("docs/hooks.md must document --format stdout contracts")
+
+    cursor_hooks = read(ROOT / ".cursor" / "hooks.json")
+    claude_hooks = read(ROOT / ".claude" / "settings.json")
+    codex_hooks = read(ROOT / ".codex" / "hooks.json")
+    devin_hooks = read(ROOT / ".devin" / "hooks.v1.json")
+    if "--format" in cursor_hooks:
+        fail(".cursor/hooks.json must use default cursor format (no --format)")
+    if "--format claude" not in claude_hooks:
+        fail(".claude/settings.json must pass --format claude")
+    if "Bash|PowerShell" not in claude_hooks:
+        fail(".claude/settings.json matcher must include PowerShell")
+    if "--format codex" not in codex_hooks:
+        fail(".codex/hooks.json must pass --format codex")
+    if "--format devin" not in devin_hooks:
+        fail(".devin/hooks.v1.json must pass --format devin")
+    if "|exec|" not in devin_hooks and not re.search(r"\bexec\b", devin_hooks):
+        fail(".devin/hooks.v1.json matcher must include exec")
+
+    writing_skill = read(SKILLS / "writing-prompts" / "SKILL.md")
+    if "Superpowers" in writing_skill:
+        fail("writing-prompts SKILL.md must not name Superpowers")
+    if "research-to-files / write-plan / execute-plan / research-then-plan" not in writing_skill:
+        fail("writing-prompts SKILL.md phase block must keep research-to-files / write-plan / execute-plan / research-then-plan")
+    if "executing agent must be allowed to write the Handoff paths" not in writing_skill:
+        fail("writing-prompts SKILL.md Doctor must require the executing agent to write Handoff paths")
 
     if "cursor-grok" in review_skill.lower() and "fast" in review_skill.lower():
         fail("public adaptive-code-review-loop SKILL.md must not require Grok Fast")

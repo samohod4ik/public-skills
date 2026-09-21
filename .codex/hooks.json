@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python hooks/remind_before_git_write.py",
+            "command": "python hooks/remind_before_git_write.py --format codex",
             "timeout": 5
           }
         ]

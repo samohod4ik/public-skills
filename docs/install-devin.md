@@ -29,6 +29,8 @@ cp -R .agents/skills/. .devin/skills/
 
 ### Windows (PowerShell)
 
+Junction (no admin):
+
 ```powershell
 New-Item -ItemType Directory -Force -Path .devin\skills | Out-Null
 Get-ChildItem .agents\skills -Directory | ForEach-Object {
@@ -36,6 +38,13 @@ Get-ChildItem .agents\skills -Directory | ForEach-Object {
   if (Test-Path $dest) { Remove-Item $dest -Recurse -Force }
   cmd /c "mklink /J `"$dest`" `"$($_.FullName)`""
 }
+```
+
+Copy:
+
+```powershell
+New-Item -ItemType Directory -Force -Path .devin\skills | Out-Null
+Copy-Item -Recurse -Force .agents\skills\* .devin\skills\
 ```
 
 If both `.agents/skills` and `.devin/skills` exist, keep them identical or delete one. Duplicate trees that drift will confuse hosted Devin if it also scans `.devin/skills`.

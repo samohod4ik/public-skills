@@ -6,11 +6,11 @@ name: validate-throne-agents-tun
 on:
   push:
     paths:
-      - "software-development/throne-agents-tun/**"
+      - ".agents/skills/throne-agents-tun/**"
       - ".github/workflows/validate-throne-agents-tun.yml"
   pull_request:
     paths:
-      - "software-development/throne-agents-tun/**"
+      - ".agents/skills/throne-agents-tun/**"
       - ".github/workflows/validate-throne-agents-tun.yml"
   workflow_dispatch:
 
@@ -19,7 +19,7 @@ jobs:
     runs-on: windows-latest
     defaults:
       run:
-        working-directory: software-development/throne-agents-tun
+        working-directory: .agents/skills/throne-agents-tun
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

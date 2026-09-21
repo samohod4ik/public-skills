@@ -6,7 +6,7 @@ Rollback on the VM: quit Throne, delete the test profile / restore `throne.db` f
 
 ## Static job (`windows-latest`)
 
-From the skill root (in `samohod4ik/skills`, `software-development/throne-agents-tun`):
+From the skill root (this skill folder):
 
 ```text
 python -m pip install pytest
@@ -20,7 +20,7 @@ Workflow file at repo root: `.github/workflows/validate-throne-agents-tun.yml`. 
 
 ## Dynamic VM (admin + throwaway subscription)
 
-1. New Windows VM. Do not RDP into the author's workstation.
+1. New Windows VM. Do not run against a live workstation session; use a disposable VM.
 2. Install Cursor / Claude / Codex / Devin **only as available**. Discovery may cover a subset; record which families were present.
 3. Extract Throne Portable ZIP to a **new** folder (not a copy of a live `running.marker` tree).
 4. Import a **test** subscription in the Throne UI only (`Ctrl+V`). Never paste it into git or chat.

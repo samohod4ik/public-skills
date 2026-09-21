@@ -11,7 +11,7 @@ description: >-
 
 # Throne: Agents-only tunnel
 
-Windows-only. Portable Throne. Config is SQLite `<THRONE_DIR>/config/throne.db`, not loose JSON. Profile **Agents only**: default outbound **direct**. Proxy the discovered local agent processes. TUN on, System Proxy off.
+Windows-only. Portable Throne. Config is SQLite `<THRONE_DIR>/config/throne.db`, not loose JSON. Profile **Agents only**: default outbound **direct**. Proxy the discovered local agent processes. TUN on, System Proxy off. Never two System Proxies: if this skill is primary, Happ System Proxy/TUN off and do not install Happ autostart. See [happ-throne-mutex.md](../happ-extra-whitelist2/docs/happ-throne-mutex.md).
 
 Replaces `throne-cursor-only-public` (profile **Cursor only**). Migration: [docs/MIGRATION.md](docs/MIGRATION.md).
 

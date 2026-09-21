@@ -2,11 +2,11 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Bash",
+        "matcher": "Bash|PowerShell",
         "hooks": [
           {
             "type": "command",
-            "command": "python hooks/remind_before_git_write.py",
+            "command": "python hooks/remind_before_git_write.py --format claude",
             "timeout": 5
           }
         ]

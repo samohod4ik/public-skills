@@ -1,11 +1,11 @@
 {
   "PreToolUse": [
     {
-      "matcher": "bash|shell|terminal|git_commit|git_push",
+      "matcher": "bash|shell|terminal|exec|git_commit|git_push",
       "hooks": [
         {
           "type": "command",
-          "command": "python hooks/remind_before_git_write.py",
+          "command": "python hooks/remind_before_git_write.py --format devin",
           "timeout": 5
         }
       ]
