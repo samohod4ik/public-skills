@@ -10,6 +10,7 @@ This catalog does not install skills into `.claude/skills`, `.devin/skills`, or 
 |-------|----------|
 | [adaptive-code-review-loop](.agents/skills/adaptive-code-review-loop/SKILL.md) | Review-fix loop after substantial work, with severity stop rules |
 | [writing-prompts](.agents/skills/writing-prompts/SKILL.md) | Turn a weak request into a prompt an agent can execute |
+| [public-repository-publishing](.agents/skills/public-repository-publishing/SKILL.md) | Preparing a sanitized public GitHub repository for first publication |
 | [throne-agents-tun](.agents/skills/throne-agents-tun/SKILL.md) | Windows Throne TUN for local agent clients only |
 | [ralph-loop](.agents/skills/ralph-loop/SKILL.md) | Fresh-context agent loop (Huntley) |
 | [happ-extra-whitelist2](.agents/skills/happ-extra-whitelist2/SKILL.md) | Happ as the Windows full-OS proxy with WHITELIST routing |

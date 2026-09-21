@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 HAPP = ROOT / ".agents" / "skills" / "happ-extra-whitelist2"
 SKILLS = ROOT / ".agents" / "skills"
+PUBLIC_REPO_SKILL = SKILLS / "public-repository-publishing"
 ADAPTER_JSON = (
     ROOT / ".cursor" / "hooks.json",
     ROOT / ".codex" / "hooks.json",
@@ -136,6 +137,12 @@ def main() -> None:
         SKILLS / "throne-agents-tun" / "SKILL.md",
         SKILLS / "throne-agents-tun" / "docs" / "http-proxy-fallback.md",
         SKILLS / "ralph-loop" / "SKILL.md",
+        PUBLIC_REPO_SKILL / "SKILL.md",
+        PUBLIC_REPO_SKILL / "workflow.md",
+        PUBLIC_REPO_SKILL / "anonymization.md",
+        PUBLIC_REPO_SKILL / "multi-agent-layout.md",
+        PUBLIC_REPO_SKILL / "review-and-release.md",
+        PUBLIC_REPO_SKILL / "repository-checklist.md",
         ROOT / ".cursor" / "rules" / "adaptive-code-review-gate.mdc",
         ROOT / ".claude" / "rules" / "review-gate.md",
         *ADAPTER_JSON,
@@ -243,6 +250,8 @@ def main() -> None:
 
     if "happ-extra-whitelist2" not in catalog or "throne-agents-tun" not in catalog:
         fail("README.md must list happ-extra-whitelist2 and throne-agents-tun")
+    if "public-repository-publishing" not in catalog:
+        fail("README.md must list public-repository-publishing")
     if "Throne Cursor-only" in catalog:
         fail("README.md must not keep the old Throne Cursor-only variant name")
     if "System Proxy" not in mutex:
@@ -350,6 +359,97 @@ def main() -> None:
     for needle in (".claude/skills/", ".devin/skills/", ".cursor/skills/"):
         if needle not in gitignore:
             fail(f".gitignore must ignore {needle}")
+
+    pub_skill = read(PUBLIC_REPO_SKILL / "SKILL.md")
+    pub_release = read(PUBLIC_REPO_SKILL / "review-and-release.md")
+    create_seen = {"SKILL.md": False, "review-and-release.md": False}
+    exec_ext = {".py", ".ps1", ".sh", ".cmd", ".exe", ".bat"}
+    skill_blob_parts: list[str] = []
+
+    for label, text in (
+        ("public-repository-publishing SKILL.md", pub_skill),
+        ("public-repository-publishing review-and-release.md", pub_release),
+    ):
+        lower = text.lower()
+        if "fresh" not in lower:
+            fail(f"{label}: missing fresh target unless retain-history exception")
+        if ".git" not in text:
+            fail(f"{label}: missing source .git exclusion language")
+        if "--local" not in text:
+            fail(f"{label}: must require --local git identity")
+
+    skill_lower = pub_skill.lower()
+    if "delete" not in skill_lower:
+        fail("public-repository-publishing SKILL.md: old-repository delete must be out of scope")
+    if "out of scope" not in skill_lower and "does not" not in skill_lower:
+        fail("public-repository-publishing SKILL.md: old-repository delete must be out of scope")
+
+    for path in PUBLIC_REPO_SKILL.rglob("*"):
+        if not path.is_file():
+            continue
+        if path.suffix.lower() in exec_ext:
+            fail(
+                "public-repository-publishing must not contain executable "
+                f"{path.relative_to(ROOT)}"
+            )
+        if path.suffix.lower() not in TEXT_SUFFIXES:
+            continue
+        body = read(path)
+        skill_blob_parts.append(body)
+        if "git config --global" in body:
+            fail(f"{path.relative_to(ROOT)}: must not set git identity with --global")
+        if "gh repo delete" in body:
+            fail(f"{path.relative_to(ROOT)}: gh repo delete is out of scope")
+        for line in body.splitlines():
+            cmd = line.strip().lstrip("`")
+            if not cmd.startswith("gh repo create"):
+                continue
+            if path.name in create_seen:
+                create_seen[path.name] = True
+            if "--public" not in cmd:
+                fail(f"{path.relative_to(ROOT)}: gh repo create must include --public")
+            if "--description" not in cmd:
+                fail(f"{path.relative_to(ROOT)}: gh repo create must include --description")
+            if "--push" in cmd:
+                fail(f"{path.relative_to(ROOT)}: gh repo create must not include --push")
+
+    if not create_seen["SKILL.md"] or not create_seen["review-and-release.md"]:
+        fail("SKILL.md and review-and-release.md must include gh repo create")
+
+    skill_blob = "\n".join(skill_blob_parts)
+    for needle, label in (
+        ("source `.git`", "source .git exclusion"),
+        ("git rev-list --objects --all", "object inventory"),
+        ("git ls-tree -r", "full remote tree listing"),
+        ("git remote -v", "pre-push remote inspect"),
+        ("choose a new name", "collision stop"),
+        ("Do not remove or rewrite origin", "origin no-remove/no-rewrite rule"),
+    ):
+        if needle not in skill_blob:
+            fail(f"public-repository-publishing: missing {label} ({needle})")
+
+    origin_rule = "Do not remove or rewrite origin"
+    origin_gate_files = (
+        PUBLIC_REPO_SKILL / "SKILL.md",
+        PUBLIC_REPO_SKILL / "workflow.md",
+        PUBLIC_REPO_SKILL / "anonymization.md",
+        PUBLIC_REPO_SKILL / "review-and-release.md",
+        PUBLIC_REPO_SKILL / "repository-checklist.md",
+        ROOT / "docs" / "superpowers" / "specs" / "2026-09-21-public-repository-publishing-design.md",
+        ROOT / "docs" / "superpowers" / "plans" / "2026-09-21-public-repository-publishing.md",
+    )
+    for path in origin_gate_files:
+        if origin_rule not in read(path):
+            fail(f"{path.relative_to(ROOT)}: missing origin no-remove/no-rewrite rule")
+
+    linguistic_stop = "linguistic review still finds a checklist violation"
+    if linguistic_stop not in pub_skill:
+        fail("public-repository-publishing SKILL.md: missing linguistic checklist violation stop")
+    if linguistic_stop not in pub_release:
+        fail(
+            "public-repository-publishing review-and-release.md: missing "
+            "linguistic checklist violation stop"
+        )
 
     print("PASS public surface gates")
 
