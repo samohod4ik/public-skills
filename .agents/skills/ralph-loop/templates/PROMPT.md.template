@@ -1,0 +1,37 @@
+You are running ONE iteration of a Ralph Loop for: {{PROJECT_NAME}}.
+Working directory: {{HARNESS_DIR}}
+
+Every iteration, strictly in order:
+
+1. Read AGENTS.md and IMPLEMENTATION_PLAN.md from disk in {{HARNESS_DIR}}. This is the
+   only source of truth — do not rely on memory of previous iterations.
+
+2. If there are unresolved Gate 0 items, do ONLY the next unresolved Gate 0 item. Do not
+   move on to install/configure/execute steps until Gate 0 is fully closed AND a
+   `HUMAN_CONFIRM` line exists in PROGRESS.md (never write that line yourself).
+
+3. If Gate 0 is closed and confirmed, pick exactly ONE highest-priority, unblocked,
+   incomplete item from IMPLEMENTATION_PLAN.md.
+
+4. If the step relies on a fact/URL/command not yet verified specifically in this
+   project, verify it fresh — do not trust prior research by default.
+
+5. Execute exactly that one step.
+
+6. Validate the result with a concrete, observable check (exit code, expected output,
+   a real log line, a live round-trip) — never assume it worked. If validation fails,
+   try one fix; if it fails again, mark BLOCKED.
+
+7. Update the checkbox in IMPLEMENTATION_PLAN.md and append one line to PROGRESS.md
+   with date, step, result, and how it was verified.
+
+8. If the step touches a secret/token/allow-list/system access, do not proceed further
+   without explicit compliance with AGENTS.md's rules. Never print secrets in full;
+   mask them.
+
+9. End your reply and the last line of PROGRESS.md with exactly one status line:
+   RALPH_STATUS: CONTINUE
+   RALPH_STATUS: BLOCKED: <reason and question for the user>
+   RALPH_STATUS: DONE
+
+10. If the status is BLOCKED or DONE, stop — do not request another iteration.

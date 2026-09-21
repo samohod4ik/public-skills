@@ -1,0 +1,47 @@
+{
+  "families": {
+    "cursor": {
+      "process_names": ["Cursor.exe"],
+      "process_paths": [
+        "C:\\Users\\fixture\\AppData\\Local\\Programs\\cursor\\Cursor.exe",
+        "C:\\Users\\fixture\\AppData\\Local\\cursor-agent\\versions\\2026.01.01-deadbeef\\node.exe"
+      ],
+      "path_regexes": [
+        "(?i)[\\\\/]cursor-agent[\\\\/]versions[\\\\/][^\\\\/]+[\\\\/]node\\.exe$"
+      ]
+    },
+    "claude": {
+      "process_names": ["Claude.exe", "claude.exe"],
+      "process_paths": [
+        "C:\\Users\\fixture\\.local\\bin\\claude.exe"
+      ],
+      "path_regexes": [
+        "(?i)[\\\\/]\\.local[\\\\/]bin[\\\\/]claude\\.exe$"
+      ]
+    },
+    "codex": {
+      "process_names": ["codex.exe"],
+      "process_paths": [
+        "C:\\Users\\fixture\\AppData\\Local\\Programs\\OpenAI\\Codex\\bin\\codex.exe",
+        "C:\\Program Files\\WindowsApps\\OpenAI.Codex_1.0.0_x64__fixture\\app\\ChatGPT.exe"
+      ],
+      "path_regexes": [
+        "(?i)[\\\\/](?:Programs\\\\)?OpenAI[\\\\/]Codex[\\\\/].*[\\\\/]codex\\.exe$",
+        "(?i)[\\\\/]WindowsApps[\\\\/]OpenAI\\.Codex[^\\\\/]*[\\\\/]app[\\\\/](?:ChatGPT\\.exe|resources[\\\\/]codex\\.exe)$"
+      ]
+    },
+    "devin": {
+      "process_names": ["devin.exe", "Devin.exe"],
+      "process_paths": [
+        "C:\\Users\\fixture\\.local\\bin\\devin.exe",
+        "C:\\Users\\fixture\\Devin\\Devin.exe",
+        "C:\\Users\\fixture\\Devin\\resources\\app\\extensions\\windsurf\\bin\\language_server_windows_x64.exe"
+      ],
+      "path_regexes": [
+        "(?i)[\\\\/]\\.local[\\\\/]bin[\\\\/]devin\\.exe$",
+        "(?i)[\\\\/]Devin[\\\\/]Devin\\.exe$",
+        "(?i)[\\\\/]extensions[\\\\/]windsurf[\\\\/]bin[\\\\/]language_server_windows_x64\\.exe$"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "command": "python hooks/remind_before_git_write.py",
+        "matcher": "\\b[gG][iI][tT](?:\\.[eE][xX][eE])?\\b",
+        "timeout": 5
+      }
+    ],
+    "beforeMCPExecution": [
+      {
+        "command": "python hooks/remind_before_git_write.py",
+        "timeout": 5
+      }
+    ]
+  }
+}

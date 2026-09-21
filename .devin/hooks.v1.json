@@ -1,0 +1,14 @@
+{
+  "PreToolUse": [
+    {
+      "matcher": "bash|shell|terminal|git_commit|git_push",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "python hooks/remind_before_git_write.py",
+          "timeout": 5
+        }
+      ]
+    }
+  ]
+}

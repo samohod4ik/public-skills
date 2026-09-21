@@ -1,0 +1,6 @@
+# Synthetic remark patterns only — not live nodes and not a guarantee those remarks exist
+Германия, Extra Whitelist2
+Нидерланды, Extra Whitelist2
+Finland, Extra Whitelist2
+Sweden, Extra Whitelist2
+Germany, Extra Whitelist

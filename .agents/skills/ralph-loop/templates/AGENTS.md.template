@@ -1,0 +1,68 @@
+# Ralph Loop rules — {{PROJECT_NAME}}
+
+## Paths in this project
+- Harness directory (this repo/folder, contains AGENTS.md/PROMPT.md/plan/progress) = `{{HARNESS_DIR}}`
+- Harness secrets = `{{HARNESS_DIR}}/.env` (never commit, never print in full)
+- Real target config/secrets (if different from the above — e.g. an installer's own
+  config file) = `{{REAL_TARGET_ENV_PATH}}`
+  **IMPORTANT:** if these two are different files, state that explicitly and remember
+  that installers/setup wizards may recreate the target file from a template at
+  install/update time, discarding anything written there beforehand — always re-verify
+  after any install/update step, don't trust that a previously-set value survived.
+
+## Base rules
+- One task per iteration. Never do more than one plan item per iteration.
+- The only source of truth is what's on disk (`IMPLEMENTATION_PLAN.md`, `PROGRESS.md`).
+  Do not trust your own reasoning from prior iterations — re-read the files every time.
+- Do not trust prior research/claims without independently re-verifying anything
+  load-bearing for a decision you're about to make in this project.
+
+## Gate 0 — required, irreversible without a human (delete this section if the task
+## has no real-world-consequence steps at all; keep it if it does)
+- Until Gate 0 is closed with a LEGIT verdict, you may NOT: download/execute third-party
+  installers or scripts, create/use API keys or tokens, enable network/messaging access,
+  or grant yourself terminal/system access beyond what you already have.
+- Even if you conclude LEGIT yourself, that must be confirmed by a HUMAN. You are not
+  allowed to write the `HUMAN_CONFIRM:` line in `PROGRESS.md` yourself — only the user
+  adds it. Until it's there, later phases stay blocked even if Gate 0's own checkboxes
+  are all checked.
+- See the `ralph-loop` skill's `references/security-checklist.md` for the full Gate 0
+  checklist to run through.
+
+## Pinning (if this project installs/executes external artifacts)
+- Never execute against a mutable ref (`main`/`latest`). Pin to a specific tag/commit.
+- Before ANY execution of a pinned artifact, re-download and re-hash it, and compare
+  against the hash a human explicitly confirmed. If it doesn't match — even if you
+  already have a `HUMAN_CONFIRM` for a *different* hash of the "same" thing — stop,
+  audit the new version, and get a new hash-scoped confirmation
+  (e.g. `HUMAN_CONFIRM_INSTALL: <date> <who> <sha256>`) before proceeding.
+
+## Secrets
+- Secrets only in `.env`-style files. Never in PROMPT.md/IMPLEMENTATION_PLAN.md/
+  PROGRESS.md/logs/commits.
+- One value per line; no inline `# comment` after a real value on the same line.
+- Mask secrets in every log/output (`sk-XXXX...YYYY`), never print in full.
+- If a secret was pasted directly in chat, treat it as partially exposed — note a
+  (non-blocking) recommendation to rotate it later, don't block on it.
+- Don't rely only on grep/search to confirm a secret's presence/absence — some search
+  tools don't index dotfiles. Read the specific file directly by path.
+
+## Executor hardening (if the executor CLI auto-loads directory-local rules/instructions)
+- Know whether a plain smoke-test/one-off invocation of your executor from inside this
+  directory will auto-load this very `AGENTS.md` and become a fully autonomous session.
+  If so, use whatever flag disables that for invocations that aren't supposed to carry
+  full agency.
+- Put a real, code-level write-scope restriction in place (not just command-approval)
+  before running the executor from inside a rules-bearing directory like this one.
+
+## Execution rules
+- If a step's validation fails twice in a row, mark `BLOCKED` with the reason and a
+  question for the user. Do not retry the same failing step indefinitely.
+- Any step granting access to: terminal/system, messaging platforms, secrets — needs an
+  observable, checkable verification, not an assumption that it "should have worked."
+- Every iteration appends exactly one line to `PROGRESS.md`: date, step, result, how it
+  was verified.
+- Every iteration ends with exactly one status line, in `PROGRESS.md` and in the reply:
+  `RALPH_STATUS: CONTINUE`
+  `RALPH_STATUS: BLOCKED: <reason and question for the user>`
+  `RALPH_STATUS: DONE`

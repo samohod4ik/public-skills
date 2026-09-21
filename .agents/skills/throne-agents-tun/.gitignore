@@ -1,0 +1,6 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+discovered.json
+allowlist.local.json
+agents-only-profile.json

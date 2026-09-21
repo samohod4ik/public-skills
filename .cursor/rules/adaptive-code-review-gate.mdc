@@ -1,0 +1,33 @@
+---
+description: After code-changing work, score complexity and start adaptive-code-review-loop only when the threshold is met
+alwaysApply: true
+---
+
+# Adaptive review gate
+
+После code-changing работы и обычной верификации реши, нужен ли review-fix loop. Не запускай цикл на read-only ответы, правку docs-only, или если пользователь явно запретил ревью.
+
+## Immediate review
+
+Сразу вызови skill `adaptive-code-review-loop`, если затронуто любое из:
+
+- security / auth
+- migrations / data mutation
+- concurrency
+- public API / contracts
+- deployment
+
+## Score
+
++1 за каждый пункт. Порог **>= 3** — вызвать `adaptive-code-review-loop`. Ниже — завершить без цикла и одной строкой сказать, что гейт пропустил ревью.
+
+- больше 3 production-файлов
+- больше 150 non-generated строк diff
+- несколько модулей / сервисов
+- новый dependency / config
+- существенные behavioral edge cases
+- multi-layer testing
+
+Явный `/adaptive-code-review-loop` обходит гейт.
+
+Процедура и stop-правила — только в skill. Не чини only-Minor раунд. Не ставь always-on hook.

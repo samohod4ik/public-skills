@@ -1,0 +1,8 @@
+.claude/skills/
+.devin/skills/
+.cursor/skills/
+**/__pycache__/
+**/.pytest_cache/
+.pytest_cache/
+*.pyc
+.DS_Store

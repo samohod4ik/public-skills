@@ -1,0 +1,33 @@
+# Copy to repo root as .github/workflows/validate-throne-agents-tun.yml
+# if the GitHub token cannot push workflow files directly.
+
+name: validate-throne-agents-tun
+
+on:
+  push:
+    paths:
+      - "software-development/throne-agents-tun/**"
+      - ".github/workflows/validate-throne-agents-tun.yml"
+  pull_request:
+    paths:
+      - "software-development/throne-agents-tun/**"
+      - ".github/workflows/validate-throne-agents-tun.yml"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: software-development/throne-agents-tun
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pytest
+        run: python -m pip install pytest
+      - name: Validate skill tree
+        run: python scripts/validate_skill.py
+      - name: Hermetic tests
+        run: python -m pytest tests -q

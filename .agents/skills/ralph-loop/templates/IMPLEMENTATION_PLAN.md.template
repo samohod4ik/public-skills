@@ -1,0 +1,40 @@
+# {{PROJECT_NAME}} — implementation plan (Ralph loop state)
+
+Status: `NOT_STARTED`
+
+<!--
+  Keep this file as the single mechanical source of truth for what's done. Every
+  checkbox should be closeable by an observable check. Delete the Gate 0 section
+  entirely if this project has no steps with real-world consequences (pure local
+  refactors, etc.) — keep it if it installs anything, touches secrets, or grants access.
+-->
+
+## Gate 0 — source/legitimacy verification (BLOCKING, do this first)
+- [ ] Read the primary source directly (README/docs at the actual origin, not a
+      secondary site)
+- [ ] Check whether the claimed publisher's own primary site/socials reference this
+      thing at all
+- [ ] Read any script/installer you're about to run IN FULL before running it — look for
+      obfuscation, unexplained persistence, credential access, unknown network calls
+- [ ] Look for independent third-party confirmation (press, community discussion) that
+      isn't just other pages on the same suspect domain
+- [ ] Write a verdict: LEGIT / NOT-LEGIT / UNCLEAR, with the evidence, into PROGRESS.md
+- [ ] **Wait for a `HUMAN_CONFIRM: <date> <who>` line in PROGRESS.md from the user.**
+      You may not write this line yourself. Later phases stay blocked without it.
+
+## Phase 1 — {{PHASE_1_NAME}} (only after HUMAN_CONFIRM)
+- [ ] {{STEP}}
+- [ ] {{STEP}}
+
+## Phase 2 — {{PHASE_2_NAME}}
+- [ ] {{STEP}}
+
+## Phase N — Hardening (do this before opening any new access surface, not after)
+- [ ] Approvals = manual (or your executor's equivalent)
+- [ ] Write scope restricted to a sandbox path (real, code-level restriction — not just
+      an approval prompt)
+- [ ] Any new remote/messaging access defaults to the narrowest scope (one identity, DM
+      only, etc.) — verified by reading the actual authorization code, not just docs
+- [ ] Document the emergency-revocation plan (how to pause, how to revoke one identity,
+      how to fully revoke) before you need it
+- [ ] Note any secret that was pasted in chat as a (non-blocking) rotation reminder

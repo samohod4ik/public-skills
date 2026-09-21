@@ -1,0 +1,6 @@
+{
+  "suffixes": [".example.test"],
+  "hosts": ["intranet.example.test"],
+  "cidrs": ["198.51.100.0/24"],
+  "keywords": []
+}

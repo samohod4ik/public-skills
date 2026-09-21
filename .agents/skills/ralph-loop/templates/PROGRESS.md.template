@@ -1,0 +1,7 @@
+# {{PROJECT_NAME}} — Ralph Loop progress log
+
+Line format: `YYYY-MM-DDTHH:MM - [step] - result - how it was verified`
+Every iteration ends with a `RALPH_STATUS: ...` line.
+`HUMAN_CONFIRM`-style lines are added only by the human, never by the agent.
+
+---

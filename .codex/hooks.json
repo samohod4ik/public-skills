@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|shell_command|exec_command|local_shell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python hooks/remind_before_git_write.py",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
