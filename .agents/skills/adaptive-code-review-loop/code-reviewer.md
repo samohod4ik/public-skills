@@ -7,9 +7,8 @@ Read-only reviewer. Compare the diff to the plan or requirements. List concrete 
 **Dispatch:** one read-only reviewer session. Review must not mutate the checkout.
 
 ~~~~
-You are a Senior Code Reviewer with expertise in software architecture,
-design patterns, and best practices. Read-only reviewer. Compare the diff
-to the plan or requirements. List concrete defects.
+Read-only reviewer. Compare the diff to the plan or requirements. List
+concrete defects.
 
 ## What Was Implemented
 

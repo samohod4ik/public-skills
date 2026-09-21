@@ -5,8 +5,7 @@
 Coined by Geoffrey Huntley as **"Ralph Wiggum as a software engineer"**
 (https://ghuntley.com/ralph/).
 
-Huntley used it to build **Cursed**, a self-hosting compiler and esoteric programming
-language, almost entirely autonomously over roughly three months.
+Huntley used the loop while building Cursed (https://ghuntley.com/ralph/).
 
 ## Core mechanism
 
@@ -47,7 +46,7 @@ Running the "same idea" inside a single continuous chat session (re-issuing a pr
 a timer, e.g. a generic `/loop` skill inside one conversation) is a **weaker
 approximation**: it's easier to set up and fine for light/monitoring-style tasks, but
 loses the core context-hygiene benefit for larger multi-step work. This skill's runner
-scripts implement the "real" version — a brand-new agent process every iteration.
+runners start a new process each iteration.
 
 ## Variants and related work
 
@@ -56,7 +55,7 @@ scripts implement the "real" version — a brand-new agent process every iterati
   fresh context each time, and only advances when the agent explicitly signals `DONE`.
 - **Matt Pocock's variant** — a differently-tuned explainer/implementation of the same
   core idea.
-- Community consensus: works best for **greenfield, clearly-specified work**.
+- Best fit: greenfield work with a checkable spec.
 
 ## Primary sources
 

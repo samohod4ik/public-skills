@@ -43,7 +43,7 @@
 - One value per line; no inline `# comment` after a real value on the same line.
 - Mask secrets in every log/output (`sk-XXXX...YYYY`), never print in full.
 - If a secret was pasted directly in chat, treat it as partially exposed — note a
-  (non-blocking) recommendation to rotate it later, don't block on it.
+  (non-blocking) recommendation to rotate it later; do not stop the loop.
 - Don't rely only on grep/search to confirm a secret's presence/absence — some search
   tools don't index dotfiles. Read the specific file directly by path.
 
