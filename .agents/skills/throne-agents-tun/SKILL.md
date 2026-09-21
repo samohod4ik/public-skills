@@ -6,7 +6,7 @@ description: >-
   Devin CLI/Desktop plus path-qualified Windsurf language server) use a
   VPN/subscription tunnel, or when TUN process rules break intranet, SSO, or
   split-horizon DNS. Do not use for whole-OS proxying, Devin Cloud workstation
-  routing, or evading workplace controls. Replaces throne-cursor-only-public.
+  routing, or evading workplace controls.
 ---
 
 # Throne: Agents-only tunnel

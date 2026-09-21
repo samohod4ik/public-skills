@@ -4,7 +4,7 @@ Read this file when the target is Cursor Agent / Plan Mode / Superpowers. Do not
 
 Cursor-specific mechanics (Plan Mode, Task tool, Grok dispatch) live only here. Superpowers phase names in the contract are optional; drop them when the target agent does not use that playbook.
 
-## Doctor extras (Cursor)
+## Preflight extras (Cursor)
 
 If Handoff/done require files in the workspace, the prompt must name a Cursor mode that can write those paths (Agent, not Ask or Plan Mode).
 

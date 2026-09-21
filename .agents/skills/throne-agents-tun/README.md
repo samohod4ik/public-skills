@@ -73,9 +73,7 @@ python scripts/validate_skill.py
 python -m pytest tests -q
 ```
 
-`windows-latest` CI YAML лежит в [`docs/github-actions-validate-skill.yml`](docs/github-actions-validate-skill.yml). В `.github/workflows/` его не пушил GitHub OAuth без scope `workflow` — скопируйте вручную, пока CI не станет gate. До этого pre-release = локальный pytest + smoke на disposable VM.
-
-Динамический smoke — только disposable Windows VM / cloud: [`docs/cloud-smoke-test.md`](docs/cloud-smoke-test.md). Не гонять против Throne, через который уже ходит этот агент.
+Скопируйте [`docs/github-actions-validate-skill.yml`](docs/github-actions-validate-skill.yml) в `.github/workflows/`. Динамическая проверка: [`docs/cloud-smoke-test.md`](docs/cloud-smoke-test.md). Не гонять против Throne, через который уже ходит этот агент.
 
 ## Чего skill намеренно не делает
 

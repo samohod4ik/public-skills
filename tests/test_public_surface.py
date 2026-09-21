@@ -339,7 +339,7 @@ def main() -> None:
     if "research-to-files / write-plan / execute-plan / research-then-plan" not in writing_skill:
         fail("writing-prompts SKILL.md phase block must keep research-to-files / write-plan / execute-plan / research-then-plan")
     if "executing agent must be allowed to write the Handoff paths" not in writing_skill:
-        fail("writing-prompts SKILL.md Doctor must require the executing agent to write Handoff paths")
+        fail("writing-prompts SKILL.md Preflight must require the executing agent to write Handoff paths")
 
     if "cursor-grok" in review_skill.lower() and "fast" in review_skill.lower():
         fail("public adaptive-code-review-loop SKILL.md must not require Grok Fast")

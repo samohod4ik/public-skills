@@ -1,10 +1,10 @@
 # Research notes: Cursor local proxy vs TUN
 
-Sanitized synthesis from Parallel deep research on Cursor IDE networking with a local mixed SOCKS/HTTP inbound (Throne, sing-box, or similar local proxy clients). No subscription URLs. No org inventory.
+Cursor IDE settings for a local mixed SOCKS/HTTP inbound. No subscription URLs. No intranet hostnames.
 
 ## Conclusions
 
-1. **Start with app-level routing** when only the IDE must use the tunnel: point Cursor at the **HTTP** side of the local mixed listener (`http://127.0.0.1:PORT`). Smallest blast radius, easiest to undo.
+1. **Start with app-level routing** when only the IDE must use the tunnel: point Cursor at the **HTTP** side of the local mixed listener (`http://127.0.0.1:PORT`). Narrowest change; revert the three JSON keys.
 2. **HTTP/1.1 is a transport fix**, not a coverage fix. Cursor defaults to HTTP/2 bidirectional streaming; some proxies buffer SSE, force timeouts, or break H2. Use **HTTP Compatibility Mode → HTTP/1.1** and **fully restart Cursor**. Do not enable TUN merely because streaming stalls.
 3. **`http.proxySupport` / `cursor.general.disableHttp2`** are useful compatibility attempts; Cursor enterprise docs may not document them. Treat the **Network UI** as authoritative for HTTP/1.1.
 4. **Keep `http.proxyStrictSSL: true`**. Prefer excluding `*.cursor.sh`, `*.cursor-cdn.com`, `*.cursorapi.com` from SSL inspection/DLP over disabling TLS verification.
@@ -32,7 +32,7 @@ If HTTP/2 through the local client is reliable, drop the disableHttp2 / HTTP/1.1
 |---------|--------------|--------------|
 | Agent output arrives all at once | Proxy buffers streaming | HTTP/1.1 + restart |
 | ~5s stall; plain HTTPS works | No H2 bidirectional | HTTP/1.1 + restart |
-| `SSLV3_ALERT_HANDSHAKE_FAILURE` | Path/regional H2 issue | HTTP/1.1 (incident class was mitigated; still a valid fallback) |
+| `SSLV3_ALERT_HANDSHAKE_FAILURE` | Path/regional H2 issue | HTTP/1.1 |
 | Cannot connect to proxy | Wrong/stale port; client down | Fix listener port; clear leftover OS proxy |
 | Agent timeouts under corp DLP | SSL inspection | Exclude Cursor domains; keep StrictSSL true |
 | Chat works, agent CLI does not | App-proxy coverage gap | TUN + process path/regex |

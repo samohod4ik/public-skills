@@ -3,16 +3,10 @@
 ## Origin
 
 Coined by Geoffrey Huntley as **"Ralph Wiggum as a software engineer"**
-(https://ghuntley.com/ralph/). Named after the endearingly simple-minded Simpsons
-character — the joke being that the technique embraces the agent's limitations (no
-memory across runs, prone to repeating mistakes) instead of fighting them.
+(https://ghuntley.com/ralph/).
 
 Huntley used it to build **Cursed**, a self-hosting compiler and esoteric programming
-language, almost entirely autonomously over roughly three months. The most-quoted cost
-figure associated with the technique: an engineer reported delivering an MVP — tested
-and reviewed, against a roughly $50,000-scope contract — for about $297 in API costs by
-putting the agent in a loop (Y Combinator hackathon write-up: "We Put a Coding Agent in
-a While Loop and It Shipped 6 Repos Overnight").
+language, almost entirely autonomously over roughly three months.
 
 ## Core mechanism
 
@@ -44,7 +38,7 @@ Per-iteration cycle (from `ghuntley/how-to-ralph-wiggum`):
 > missing the point of Ralph, which is to use always a fresh context." — Michael
 > Arnaldi, quoted in ZeroSync's technical deep dive.
 
-Each iteration starts a **new process** with a clean context window. This is what
+Runners start a new process each iteration, with a clean context window. This is what
 distinguishes Ralph from a long-running continuous agent session: no context rot, no
 compaction, no gradual drift — every pass re-derives its understanding of the current
 state purely from what's on disk (plan files, specs, code, git history).
@@ -62,14 +56,12 @@ scripts implement the "real" version — a brand-new agent process every iterati
   fresh context each time, and only advances when the agent explicitly signals `DONE`.
 - **Matt Pocock's variant** — a differently-tuned explainer/implementation of the same
   core idea.
-- Community consensus: works best for **greenfield, clearly-specified work** where
-  ~90% automated completion with ~10% human cleanup is an acceptable trade — not a
-  guarantee of zero supervision.
+- Community consensus: works best for **greenfield, clearly-specified work**.
 
 ## Primary sources
 
 - Geoffrey Huntley, "Ralph Wiggum as a software engineer" — https://ghuntley.com/ralph/
 - `ghuntley/how-to-ralph-wiggum` (GitHub) — https://github.com/ghuntley/how-to-ralph-wiggum
 - "The Ralph Technique: Geoffrey Huntley's Agentic Coding Loop" — howaiworks.ai
-- "Ralph Wiggum — Viral Agentic Coding Loop, Simplified" — https://ralph-wiggum.ai/
+- https://ralph-wiggum.ai/
 - "The Ralph Loop: Long-Running AI Agents" — ZeroSync technical deep dive

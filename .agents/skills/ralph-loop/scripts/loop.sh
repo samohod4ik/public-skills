@@ -1,23 +1,22 @@
 #!/usr/bin/env bash
 # Ralph Loop runner - POSIX (macOS/Linux/WSL).
-# Cursor CLI adapter: the default executor calls `agent`. Other CLIs: edit
-# invoke_executor. Every iteration spawns a NEW executor process (fresh context).
+# Shipped adapter is Cursor CLI (`agent`). Other CLIs replace invoke_executor.
+# Every iteration spawns a NEW executor process (fresh context).
 # State between iterations lives only on disk (IMPLEMENTATION_PLAN.md,
 # PROGRESS.md) and in this directory's git history.
 #
 # Usage:
 #   cd my-ralph-project
 #   ./loop.sh
-#   MODEL=claude-opus-4-8-thinking-high MAX_ITERATIONS=1 ./loop.sh   # one-off for a
-#                                                                     # high-stakes step
+#   MODEL=claude-opus-4-8-thinking-high MAX_ITERATIONS=1 ./loop.sh   # Gate 0 / irreversible step
 #
 # Env vars:
 #   MODEL                    (default: claude-sonnet-5-thinking-high)
 #   MAX_ITERATIONS            0 = unlimited, stop only on RALPH_STATUS (default: 0)
 #   SLEEP_SECONDS             (default: 3)
 #   MAX_CONSECUTIVE_FAILURES  (default: 3)
-#   EXECUTOR                  "cursor" is the only backend verified end-to-end;
-#                              see SKILL.md "Executor backends" (default: cursor)
+#   EXECUTOR                  shipped adapter is Cursor CLI; other CLIs replace
+#                              invoke_executor (default: cursor)
 #
 # Requirements:
 #   - Cursor CLI installed and logged in: `agent --version` works (`agent login` if not).

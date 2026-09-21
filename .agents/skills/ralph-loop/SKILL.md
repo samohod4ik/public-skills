@@ -29,7 +29,7 @@ Other CLIs: change the executor function; keep `EXECUTOR` overridable.
 ## The technique
 
 Coined by Geoffrey Huntley ("Ralph Wiggum as a software engineer", see
-`references/ralph-technique.md`). In its purest form:
+`references/ralph-technique.md`). Minimal form:
 
 ```bash
 while true; do

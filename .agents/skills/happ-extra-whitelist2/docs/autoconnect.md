@@ -47,7 +47,7 @@ If Happ is already running **and** System Proxy / TUN is already up (example: Wi
 - Only register / ensure the delayed logon nudge (`Set-HappAutoconnect.ps1`). That script schedules the task; it does not write Happ Preferences and does not need an immediate connect.
 - Firing connect on a healthy live tunnel is unnecessary and can blip remote sessions that depend on the proxy.
 
-`-InspectOnly` on a real Windows Happ install has been seen to report **zero** HKCU Happ Preference value names matching autoconnect/lastused. That is expected. Never invent registry keys. Official `lastused` is subscription-provider only. The local path is the Settings UI toggle (if present) plus the scheduled `happ://connect` nudge.
+No public Windows Preferences key is documented. `-InspectOnly` may list zero matching names; do not invent keys. Official `lastused` is subscription-provider only. The local path is the Settings UI toggle (if present) plus the scheduled `happ://connect` nudge.
 
 ## Field check
 

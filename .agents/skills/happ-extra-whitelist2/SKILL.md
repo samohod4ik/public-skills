@@ -11,7 +11,7 @@ description: >-
 
 # Happ Extra Whitelist2
 
-Portable public skill. Scope is **Windows** (any PC), not a single host or laptop-only playbook.
+Windows only. Any PC (desktop, laptop, or VM).
 
 **Variant:** this skill is Happ **full-proxy**. Alternate: [Throne Agents only](docs/happ-throne-mutex.md) — only local agent clients through Throne TUN.
 
@@ -82,7 +82,7 @@ If the live session is already tunneled, skip connect. Field-check the delayed l
 
 ## Русский
 
-Публичный навык для **Windows** (любой ПК). Это вариант **Happ (весь ОС)**. Альтернатива: Throne Agents only — [happ-throne-mutex.md](docs/happ-throne-mutex.md). Не включать System Proxy Happ и Throne вместе.
+Только Windows. Любой ПК (настольный, ноутбук или VM). Это вариант **Happ (весь ОС)**. Альтернатива: Throne Agents only — [happ-throne-mutex.md](docs/happ-throne-mutex.md). Не включать System Proxy Happ и Throne вместе.
 
 ### Когда использовать
 

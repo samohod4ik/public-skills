@@ -1,6 +1,6 @@
 # Cloud smoke test
 
-Hermetic pytest/CI never enable TUN. This runbook is the **pre-release dynamic gate** on a **disposable Windows cloud VM** (or GitHub-hosted `windows-latest` only for the static job). Do **not** run it against a Throne install that an existing Cursor/agent session already uses.
+Hermetic pytest/CI never enable TUN. Dynamic check on a disposable Windows VM (or GitHub-hosted `windows-latest` only for the static job). Do **not** run it against a Throne install that an existing Cursor/agent session already uses.
 
 Rollback on the VM: quit Throne, delete the test profile / restore `throne.db` from the backup taken on that VM, disable TUN. Destroy the VM when done.
 

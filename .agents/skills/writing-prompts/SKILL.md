@@ -20,7 +20,7 @@ If the target is Cursor, read [references/cursor.md](references/cursor.md).
 
 **Do not use** when the user needs a standing rule file rather than a one-shot prompt, or when the task is to execute a plan rather than improve the wording.
 
-## Doctor
+## Preflight
 
 Before editing the prompt, check:
 
@@ -30,7 +30,7 @@ Before editing the prompt, check:
 4. Named past chats: exact name or id. "This chat" without an id is not a canon for a subagent.
 5. Scope: if the source says "any queries / any dashboards / all docs", replace with a finite list of scenarios and artifacts from the canon. If that list cannot be derived, ask and do not emit an execution prompt. A research-then-plan prompt is still allowed.
 
-If Doctor fails: emit the improved prompt, mark it not ready to execute, stop.
+If Preflight fails: emit the improved prompt, mark it not ready to execute, stop.
 
 ## Workflow
 

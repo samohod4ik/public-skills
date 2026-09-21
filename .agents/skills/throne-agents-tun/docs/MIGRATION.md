@@ -11,4 +11,4 @@
 
 Keep a working **Cursor only** profile on a live workstation until a human switches UI to **Agents only**. An agent whose traffic already depends on Throne must not rewrite `throne.db` or toggle TUN.
 
-Private machine skill `throne-cursor-only` (PAC / named intranet) is out of scope for this public folder. Do not copy corp domains here.
+Do not add PAC files, named intranet domains, or host-specific paths to this public folder.

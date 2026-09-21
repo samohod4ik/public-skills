@@ -1,7 +1,7 @@
 <#
     Ralph Loop runner - Windows/PowerShell.
-    Cursor CLI adapter: the default executor calls `agent`. Other CLIs: edit
-    Invoke-Executor. Every iteration spawns a NEW executor process (fresh context).
+    Shipped adapter is Cursor CLI (`agent`). Other CLIs replace Invoke-Executor.
+    Every iteration spawns a NEW executor process (fresh context).
     State between iterations lives only on disk (IMPLEMENTATION_PLAN.md,
     PROGRESS.md) and in this directory's git history.
 
@@ -12,8 +12,7 @@
     Usage:
       cd my-ralph-project
       .\loop.ps1
-      .\loop.ps1 -Model claude-opus-4-8-thinking-high -MaxIterations 1   # one-off for a
-                                                                          # high-stakes step
+      .\loop.ps1 -Model claude-opus-4-8-thinking-high -MaxIterations 1   # Gate 0 / irreversible step
       .\loop.ps1 -MaxIterations 5
 
     Requirements:
@@ -27,8 +26,8 @@ param(
     [int]$MaxIterations = 0,      # 0 = unlimited, stop only on RALPH_STATUS
     [int]$SleepSeconds = 3,
     [int]$MaxConsecutiveFailures = 3,
-    [string]$Executor = "cursor"   # "cursor" is the only backend verified end-to-end;
-                                     # see SKILL.md "Executor backends"
+    [string]$Executor = "cursor"   # shipped adapter is Cursor CLI; other CLIs replace
+                                     # Invoke-Executor (see SKILL.md "Executor backends")
 )
 
 $ErrorActionPreference = "Continue"

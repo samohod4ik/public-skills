@@ -14,7 +14,7 @@ Applies to any **Windows** PC where Happ is the **primary** proxy client. Altern
 | Happ | Primary Windows client (FlyFrog). **Autostart** = `Happ.exe --autostart` (launch). **Autoconnect (official)** = provider `lastused`. **Autoconnect (local)** = delayed `happ://connect` after Happ.exe. |
 | Routing JSON | `%LOCALAPPDATA%\Happ\routing.json` — `useRouting`, `activeRoutingName`, `routings[]`. |
 | Geo assets | Often under `%LOCALAPPDATA%\Happ\routing\0\<ProfileName>\` (`geoip.dat`, `geosite.dat`). |
-| Subscription | Opaque in Happ; refresh interval via HKCU registry (minutes on Windows builds). Official autoconnect flags are **subscription-delivered**, not a documented registry value. |
+| Subscription | Opaque in Happ; refresh interval via HKCU registry (Windows keys are minutes). Official autoconnect flags are **subscription-delivered**, not a documented registry value. |
 | Throne / other clients | Spare only while Happ is primary — their System Proxy and TUN **off**. Never dual System Proxy. |
 
 ## Autostart vs autoconnect
@@ -38,10 +38,10 @@ Path: `HKCU\Software\Happ\OrganizationDefaults\Preferences\Subscriptions`
 | `subsAutoUpdate` | `true` |
 | `subsUpdateOnOpen` | `true` |
 
-Official docs sometimes describe intervals in hours; observed Windows builds honor **minutes** via these keys. No public autoconnect value is documented under Preferences — do not invent one.
+Windows keys are minutes; vendor docs may say hours. No public autoconnect value is documented under Preferences — do not invent one.
 
 ---
 
 ## Русский
 
-Слои те же на любом Windows ПК, если выбран вариант Happ. Автозапуск только поднимает процесс; официальное автоподключение — `lastused` от провайдера; локальный nudge — `happ://connect` после Happ.exe. Реестр здесь — интервал обновления подписки. Extra Whitelist2 DE/NL — если такие серверы есть. Throne на этой машине — spare, без своего System Proxy.
+Слои те же на любом Windows ПК, если выбран вариант Happ. Автозапуск только поднимает процесс; официальное автоподключение — `lastused` от провайдера; локальный nudge — `happ://connect` после Happ.exe. Реестр здесь — интервал обновления подписки. Extra Whitelist2 DE/NL — если такие серверы есть. Throne на целевом ПК — spare, без своего System Proxy.

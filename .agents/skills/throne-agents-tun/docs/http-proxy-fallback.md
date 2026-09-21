@@ -6,7 +6,7 @@
 - **TUN + process split** — покрытие helpers / `cursor-agent` / Claude / Codex / Devin / proxy-unaware процессов; сложнее (DNS, loops, LAN).
 - **HTTP/1.1** — транспортный workaround, когда proxy ломает HTTP/2 streaming. **Не** замена TUN и наоборот.
 
-Полный отчёт research (санитизированный): [research-cursor-http-proxy.md](research-cursor-http-proxy.md).
+Notes: [research-cursor-http-proxy.md](research-cursor-http-proxy.md).
 
 Этот fallback **не** реализует профиль **Agents only**. Claude Code, Codex и Devin CLI его не используют.
 

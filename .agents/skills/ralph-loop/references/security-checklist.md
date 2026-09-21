@@ -49,7 +49,7 @@ network/system access it didn't already have.
       re-verify.
 - [ ] Never put a secret only in chat/conversation text as the final resting place — get
       it into the actual secrets file, then treat the chat-pasted copy as already
-      partially exposed (recommend rotation, don't panic-block on it).
+      partially exposed. Recommend rotation; do not stop the loop.
 - [ ] One value per line in `.env`-style files; never an inline `# comment` after a real
       value on the same line — trailing-comment handling is inconsistent across parsers.
 - [ ] Don't rely solely on grep/search tooling to confirm a secret is absent — some
@@ -84,7 +84,7 @@ network/system access it didn't already have.
 
 ## Process discipline
 
-- [ ] One task per iteration. No exceptions for "it's a quick one too."
+- [ ] One task per iteration. No extra plan items in the same iteration.
 - [ ] Every step ends with an observable, checkable result — a command's exit code, a
       specific log line, a live round-trip to a real API — never "should be fine."
 - [ ] Cap consecutive failures on the same step (e.g. 3) and stop with a clear question
