@@ -50,14 +50,14 @@ Prefer **lastused** (last selected server). Prefer Extra Whitelist2 DE then NL *
 
 1. Confirm Happ installed; **discover** `Happ.exe` (pass `-HappExe` if needed).
 2. Ensure subscription present (user-private); do not log the URL.
-3. Import RoscomVPN **WHITELIST** deeplink; enable Use routing; confirm via `scripts/Get-HappRoutingNames.ps1`.
+3. Import RoscomVPN **WHITELIST**. On HAPP 4.0.5+, a deeplink may add the profile only to the global library: open **Servers → active subscription → ⋯ → Routing**, enable **Enable Routing**, and select the imported profile under **Select Rule**. Confirm both controls in that subscription's UI. `scripts/Get-HappRoutingNames.ps1` is an inventory, not proof that the active subscription uses the profile. See [routing.md](docs/routing.md).
 4. If Extra Whitelist2 remarks exist, connect DE then NL in the UI. Otherwise keep `lastused`.
 5. `scripts/Set-HappSubscriptionRefresh.ps1` → 60.
 6. `scripts/Install-HappAutostart.ps1` (launch task + delayed connect nudge).
 7. Ask the subscription provider for `subscription-autoconnect: 1` + `subscription-autoconnect-type: lastused` (headers or `#` body lines). Enable the Settings auto-connect toggle **if present**.
 8. `scripts/Invoke-HappSoftOpen.ps1` to focus. Use `scripts/Invoke-HappSoftConnect.ps1` only if the tunnel is down. Live session already up: skip connect; field-check the logon nudge after reboot.
 9. Confirm Throne System Proxy/TUN are **off**.
-10. `scripts/Verify-HappExtraWhitelist2.ps1` — all checks green or document gaps.
+10. After checking the active subscription's Routing screen, run `scripts/Verify-HappExtraWhitelist2.ps1 -UiConfirmedRoutingProfile '<selected name>'` (HAPP 4.0.5+). Check the required sites in the browser. HTTP 200 or an expected login redirect supports reachability; HTTP 429 proves only that a server responded. Document gaps rather than claim success from a profile present in `routing.json`.
 
 ## Watch
 
@@ -73,7 +73,8 @@ If the live session is already tunneled, skip connect. Field-check the delayed l
 ## Success criteria
 
 - Happ process running; **autostart** task present; **autoconnect** nudge task present (unless explicitly skipped — then verify with `-SkipAutoconnectCheck`).
-- `useRouting` on; active routing profile is the imported WHITELIST-based profile.
+- On HAPP 4.0.5+, **Enable Routing = On** and the intended profile is selected under **Select Rule** in the subscription containing the connected server. Global `useRouting`/`activeRoutingName` are legacy fields and do not establish this. If `subConfigs` is absent, first confirm HAPP is older than 4.0.5; only then verify the legacy routing state with `-ConfirmedLegacyHapp`.
+- Required sites open in a browser; an HTTP 429 from automated requests alone is inconclusive for browser usability. With Mixed/TUN mode, `curl --noproxy '*'` still traverses the HAPP tunnel and is not a direct-path test.
 - Connected exit is Extra Whitelist2 DE or NL **when those remarks exist**.
 - Registry refresh interval is 60 minutes; auto-update enabled.
 - Throne System Proxy/TUN off while Happ is primary.
@@ -114,4 +115,4 @@ If the live session is already tunneled, skip connect. Field-check the delayed l
 
 ### Успех
 
-Процесс + задача автозапуска + nudge автоподключения (или явный skip). `useRouting` + WHITELIST. Extra Whitelist2 DE/NL только если remark есть. Интервал 60 минут. Throne System Proxy выключен.
+Процесс + задача автозапуска + nudge автоподключения (или явный skip). В HAPP 4.0.5+ проверить **Servers → активная подписка → ⋯ → Routing**: **Enable Routing = On**, в **Select Rule** выбран нужный профиль. Общие поля `useRouting` и `activeRoutingName` этого не доказывают. Проверить открытие нужных сайтов в браузере; HTTP 429 от автоматического запроса не доказывает работоспособность страницы. При Mixed/TUN `curl --noproxy '*'` всё ещё идёт через туннель HAPP. Extra Whitelist2 DE/NL только если remark есть. Интервал 60 минут. Throne System Proxy выключен.
