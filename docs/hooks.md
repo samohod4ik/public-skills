@@ -34,3 +34,27 @@ Stdout: `{"continue":true}` plus optional `systemMessage`. Do not emit Cursor `p
 File: `.devin/hooks.v1.json`. Event `PreToolUse`. Matcher is `tool_name` (`bash|shell|terminal|exec|git_commit|git_push`), not the git command string. Command: `python hooks/remind_before_git_write.py --format devin`. The script still inspects `command` / `tool_input` when present; if the payload has only a generic shell tool name and no command text, the reminder is skipped unless the tool name itself is `git_commit` or `git_push`.
 
 Stdout when reminding: `{"hookSpecificOutput":{"additionalContext":"..."}}`. Otherwise `{}`. Do not emit `continue` or Cursor `permission`.
+
+## Linux validation
+
+The pilot was validated with Python 3.12.14 in an isolated virtual environment. From the repository root, install the direct test dependencies:
+
+```sh
+python3.12 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements-quality.txt
+```
+
+`requirements-quality.txt` pins pytest 8.3.5, pytest-cov 6.2.1, and coverage 7.10.6; it does not lock transitive dependencies. Run the root checks explicitly:
+
+```sh
+python -m pytest -q tests/
+python tests/test_public_surface.py
+python tests/test_remind_before_git_write.py
+```
+
+`tests/test_public_surface.py` is a standalone static gate, so invoke it directly; pytest does not collect it.
+
+## Pull request validation
+
+GitHub Actions runs the full `tests/` suite, the standalone public-surface and reminder checks, and the scoped Code Quality report for pull requests. The Code Quality command uses `--no-deps`, excluding dependency-cruiser cycle and knip dead-code scans from this pilot; other optional scanner skips remain visible in the uploaded report. The workflow uploads JUnit and quality reports as run artifacts; branch-protection settings determine whether its result is required to merge.
