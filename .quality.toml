@@ -1,0 +1,17 @@
+[project]
+language = "py"
+src = ["hooks"]
+base = "main"
+out_dir = ".scratch/quality"
+test_cmd = 'COVERAGE_FILE="$QG_DIR/.coverage" python -m pytest -q tests/ --cov=hooks --cov-report=lcov:"$QG_LCOV" && python tests/test_public_surface.py'
+
+[tests]
+touched_cmd = 'COVERAGE_FILE="$QG_DIR/.coverage" python -m pytest -q {files} --cov=hooks --cov-report=lcov:"$QG_LCOV"'
+touched_timeout_s = 180
+
+[security]
+gitleaks = false
+audit = false
+
+[review]
+jev = false
