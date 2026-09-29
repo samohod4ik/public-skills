@@ -1,0 +1,4 @@
+# Direct test dependencies for the Linux quality pilot; not a transitive lock.
+pytest==8.3.5
+pytest-cov==6.2.1
+coverage==7.10.6

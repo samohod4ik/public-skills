@@ -12,7 +12,8 @@ FORMATS = ("cursor", "claude", "codex", "devin")
 _SHELL_GIT_ACTION = re.compile(
     r"""(?:^|[;&|]\s*|\s)git(?:\.exe)?\s+
         (?:
-            -C\s+(?:"[^"]*"|'[^']*'|\S+)\s+
+            --no-pager\s+
+            |-C\s+(?:"[^"]*"|'[^']*'|\S+)\s+
             |(?:--git-dir|--work-tree)(?:=|\s+)(?:"[^"]*"|'[^']*'|\S+)\s+
         )*
         (?:commit|push)\b""",

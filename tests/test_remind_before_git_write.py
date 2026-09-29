@@ -2,6 +2,7 @@
 """Contract tests for hooks/remind_before_git_write.py, split by --format."""
 from __future__ import annotations
 
+import importlib
 import json
 import subprocess
 import sys
@@ -9,6 +10,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "hooks" / "remind_before_git_write.py"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+response_for = importlib.import_module("hooks.remind_before_git_write").response_for
 
 _CLAUDE_COMMIT = {
     "hook_event_name": "PreToolUse",
@@ -32,6 +36,66 @@ def run(payload: dict, *args: str) -> dict:
     )
     assert completed.returncode == 0, completed.stderr
     return json.loads(completed.stdout)
+
+
+def _assert_advisory_reminder(output_format: str, body: dict) -> None:
+    if output_format == "cursor":
+        assert body["permission"] == "allow"
+        assert body["agent_message"]
+        assert "continue" not in body
+    elif output_format == "claude":
+        assert body["continue"] is True
+        assert body["systemMessage"]
+        assert "permission" not in body
+    elif output_format == "codex":
+        assert body["systemMessage"]
+        assert "continue" not in body
+        assert "permission" not in body
+    else:
+        assert body["hookSpecificOutput"]["additionalContext"]
+        assert "continue" not in body
+        assert "permission" not in body
+
+
+def test_no_pager_commit_and_push_with_global_options() -> None:
+    commands = (
+        "git --no-pager commit -m x",
+        "git --no-pager push",
+        "git -C repo --no-pager commit -m x",
+        "git --no-pager -C 'repo with spaces' push",
+        "git --git-dir=.git --no-pager push",
+        "git --no-pager --git-dir .git commit -m x",
+        "git --work-tree=. --no-pager commit -m x",
+        "git --no-pager --work-tree . push",
+        "git -C repo --git-dir=.git --no-pager --work-tree=. commit -m x",
+    )
+    for command in commands:
+        payload = {
+            "hook_event_name": "PreToolUse",
+            "tool_name": "Bash",
+            "tool_input": {"command": command},
+        }
+        for output_format in ("cursor", "claude", "codex", "devin"):
+            _assert_advisory_reminder(
+                output_format, response_for(payload, output_format)
+            )
+
+
+def test_no_pager_status_does_not_remind() -> None:
+    for command in ("git --no-pager status", "git -C repo --no-pager status"):
+        payload = {
+            "hook_event_name": "PreToolUse",
+            "tool_name": "Bash",
+            "tool_input": {"command": command},
+        }
+        expected = {
+            "cursor": {"permission": "allow"},
+            "claude": {"continue": True},
+            "codex": {},
+            "devin": {},
+        }
+        for output_format, body in expected.items():
+            assert response_for(payload, output_format) == body
 
 
 def test_cursor_shell_commit_allows_with_message() -> None:
@@ -172,6 +236,8 @@ def test_devin_git_commit_tool_reminds() -> None:
 
 
 if __name__ == "__main__":
+    test_no_pager_commit_and_push_with_global_options()
+    test_no_pager_status_does_not_remind()
     test_cursor_shell_commit_allows_with_message()
     test_cursor_mcp_push_allows_with_message()
     test_cursor_unrelated_command_has_no_message()
