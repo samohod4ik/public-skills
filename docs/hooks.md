@@ -1,6 +1,6 @@
 # Hooks
 
-`hooks/remind_before_git_write.py` prints a non-blocking reminder when the inbound payload looks like `git commit` or `git push`. The script always allows the action. Cursor still fail-closes the permission hook if `python` is missing from PATH or the process cwd is not the repository root (`.cursor/hooks.json` runs `python hooks/remind_before_git_write.py` from the repo root). It is an agent-session hook, not a git `pre-commit` or `pre-push` hook. It does not start `adaptive-code-review-loop`.
+`hooks/remind_before_git_write.py` prints a non-blocking reminder when the inbound payload looks like `git commit` or `git push`, including shell commands with Git global `--no-pager`, `-C`, `--git-dir`, or `--work-tree` options before the action. The script always allows the action. Cursor still fail-closes the permission hook if `python` is missing from PATH or the process cwd is not the repository root (`.cursor/hooks.json` runs `python hooks/remind_before_git_write.py` from the repo root). It is an agent-session hook, not a git `pre-commit` or `pre-push` hook. It does not start `adaptive-code-review-loop`.
 
 Trust the workspace before enabling project hooks. Audit `hooks/remind_before_git_write.py` and the JSON configs below. See [SECURITY.md](../SECURITY.md).
 
