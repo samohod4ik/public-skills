@@ -15,9 +15,10 @@ This file is the portable protocol. It does not require a specific model family 
 ## When this skill runs
 
 - Explicit: `/adaptive-code-review-loop` or a request to review-and-fix until clean. Always proceed, even if the gate previously declined.
+- Delegated: invoked as a required stage by another process or skill — equivalent to explicit invocation; the caller's mandate bypasses the local gate, including its skip-list.
 - Automatic: after code-changing work, if `adaptive-code-review-gate` said the complexity threshold was met.
 
-A declined gate stops **only the automatic path**. Explicit user invocation always starts this loop.
+A declined gate stops **only the automatic path**. Explicit or delegated invocation always starts this loop.
 
 ## Protocol
 

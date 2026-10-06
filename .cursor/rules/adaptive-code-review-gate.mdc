@@ -28,6 +28,6 @@ Start `adaptive-code-review-loop` immediately if any of the following is involve
 - substantial behavioral edge cases
 - multi-layer testing
 
-Explicit `/adaptive-code-review-loop` bypasses the gate.
+Explicit `/adaptive-code-review-loop` bypasses the gate. So does delegated invocation — a required stage of another process or skill.
 
 Procedure and stop rules live only in the skill. Do not fix an only-Minor round. Do not attach an always-on hook.

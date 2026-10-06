@@ -6,7 +6,7 @@ Rules in this repository advise. They do not block shell or git. The only execut
 
 ## Review gate
 
-After code-changing work, start `adaptive-code-review-loop` when the change is security, auth, migrations, data mutation, concurrency, public API, or deployment; or when a simple complexity score is 3 or higher (more than three production files, more than 150 non-generated diff lines, several modules, a new dependency or config, substantial edge cases, multi-layer tests). Skip the automatic loop for read-only answers, docs-only edits, or an explicit user skip. Explicit `/adaptive-code-review-loop` always runs.
+After code-changing work, start `adaptive-code-review-loop` when the change is security, auth, migrations, data mutation, concurrency, public API, or deployment; or when a simple complexity score is 3 or higher (more than three production files, more than 150 non-generated diff lines, several modules, a new dependency or config, substantial edge cases, multi-layer tests). Skip the automatic loop for read-only answers, docs-only edits, or an explicit user skip. Explicit `/adaptive-code-review-loop` always runs; so does delegated invocation as a required stage of another process or skill.
 
 Do not attach the review loop to an always-on hook. Do not fix a round that contains only Minor findings.
 
