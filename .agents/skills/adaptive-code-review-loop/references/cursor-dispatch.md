@@ -4,7 +4,9 @@ Use this file only when the parent session is Cursor and Task tool is available.
 
 ## Models
 
-Resolve one Grok Fast (effort at least high) slug from the Task allowlist of **this** session. Use it for both reviewer and fixer. Always pass `model` explicitly. If the allowlist has no `cursor-grok-*-fast` candidate at that floor, stop and tell the user. Do not substitute another family.
+Prefer one Grok Fast (effort at least high) slug from the Task allowlist of **this** session. Use it for both reviewer and fixer, and pass `model` explicitly.
+
+If the allowlist has no `cursor-grok-*-fast` candidate at that floor, fall back to the session's default model (omit `model` so the session inherits) and say so in the report — never label the review as a fast-model run. If the Task tool requires an explicit allowlist slug and none is usable, stop and tell the user. Do not silently substitute another family; any non-Grok-Fast choice must be disclosed.
 
 ## Dispatch
 
