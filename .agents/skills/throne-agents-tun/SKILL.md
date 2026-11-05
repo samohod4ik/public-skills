@@ -118,7 +118,7 @@ Throne Portable ZIP can live in any `<THRONE_DIR>`. Process path rules are **mac
 | Strict Route | **Off** | Blocks LAN / multi-homed DNS on Windows |
 | DNS final outbound | **direct** | Split-horizon needs the OS/corporate resolver |
 | Private range bypass | On | RFC1918 stays off TUN routes |
-| Tun routing | **Off** | Process rules + Strict off → loops (Throne #1365) |
+| Tun routing | **Off** on a process-match profile | Process rules + Strict off → loops (Throne #1365). A destination profile that bypasses RU prefixes uses built-in `geoip-ru` and Tun routing on: [docs/destination-direct.md](docs/destination-direct.md) |
 | Fake-IP / system DNS hijack | Off | Breaks browser and LAN names |
 
 Start a node first, then enable TUN (Admin). Do not persist `tun_mode_enabled=true` before a node and **Agents only** are selected. After that, the logon writer is allowed to restore `tun_mode_enabled=true` and `remember_enable=true` while Throne is not running. Autostart without **Remember last profile** leaves TUN and the node off after reboot.
@@ -216,6 +216,7 @@ Dynamic TUN smoke: [docs/cloud-smoke-test.md](docs/cloud-smoke-test.md) on a dis
 - Match every `ChatGPT.exe` (Codex App is path-qualified)
 - Edit the DB while Throne is running and then click Routes / OK
 - Turn on Tun routing to "fix" process rules
+- Store `tls_spoof` as `0` (the core reads the text `0` and opens WinDivert)
 - Commit or paste the subscription URL
 - Invent, scrape, or publish the user's internal domains
 - Spoof User-Agent or otherwise bypass WAF/SSO

@@ -55,7 +55,9 @@ Claude Chrome bridge и Codex sampling держат WSS на TCP/443. TLS inspec
 
 ## Tun routing
 
-`enable_tun_routing=true` вместе с process rules и Strict off → петли (Throne #1365). Держать **Off**.
+На профиле с process rules `enable_tun_routing` выключен. Включённый Tun routing вместе с такими правилами и выключенным Strict Route даёт петлю ([Throne #1365](https://github.com/throneproj/Throne/issues/1365)).
+
+Профиль, где российские префиксы идут напрямую, а остальное в proxy, использует встроенное имя `geoip-ru` и включённый Tun Routing. URL `.srs` в исключение TUN не попадает. Колонка `tls_spoof` хранится пустой строкой: текст `0` включает WinDivert. Прогон и источники: [destination-direct.md](destination-direct.md).
 
 ## Devin Cloud
 

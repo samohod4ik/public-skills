@@ -4,7 +4,7 @@
 
 Имя skill: `throne-agents-tun`. Заменяет `throne-cursor-only-public` (см. [docs/MIGRATION.md](docs/MIGRATION.md)). Never two System Proxies: if this skill is primary, Happ System Proxy/TUN off and do not install Happ autostart. See [happ-throne-mutex.md](../happ-extra-whitelist2/docs/happ-throne-mutex.md).
 
-Файлы агента: [`SKILL.md`](SKILL.md), [`reference.md`](reference.md). Архитектура: [`docs/tun-process-routing.md`](docs/tun-process-routing.md). Сети вендоров: [`docs/agent-network-requirements.md`](docs/agent-network-requirements.md). Подводные камни: [`docs/pitfalls.md`](docs/pitfalls.md). Fallback без TUN (только Cursor IDE): [`docs/http-proxy-fallback.md`](docs/http-proxy-fallback.md). Cloud smoke: [`docs/cloud-smoke-test.md`](docs/cloud-smoke-test.md).
+Файлы агента: [`SKILL.md`](SKILL.md), [`reference.md`](reference.md). Архитектура: [`docs/tun-process-routing.md`](docs/tun-process-routing.md). Сети вендоров: [`docs/agent-network-requirements.md`](docs/agent-network-requirements.md). Подводные камни: [`docs/pitfalls.md`](docs/pitfalls.md). Прямой выход российских префиксов (не профиль Agents only): [`docs/destination-direct.md`](docs/destination-direct.md). Fallback без TUN (только Cursor IDE): [`docs/http-proxy-fallback.md`](docs/http-proxy-fallback.md). Cloud smoke: [`docs/cloud-smoke-test.md`](docs/cloud-smoke-test.md).
 
 ## Что сказать агенту
 
